@@ -30,9 +30,8 @@ CHALLENGE 3
 Write a function named addQuestion that, given an array of strings, uses map to return a new array containing each string followed by a question mark character.
 ------------------------------------------------------------------------------------------------ */
 
-const addQuestion = (arr) => {
-  // Solution code here...
-};
+const addQuestion = (arr) =>
+  arr.map(val => val + "?");
 
 /* ------------------------------------------------------------------------------------------------
 CHALLENGE 4
@@ -45,7 +44,12 @@ For example, twoToThe([1,2,3]) returns [2,4,8] because 2 ^ 1 = 2, 2 ^ 2 = 4, and
 ------------------------------------------------------------------------------------------------ */
 
 const forLoopTwoToThe = (arr) => {
-  // Solution code here...
+  let newArr4 = [];
+  for(let value of arr)
+  {
+    newArr4.push(2 ** value);
+  }
+  return newArr4;
 };
 
 /* ------------------------------------------------------------------------------------------------
@@ -55,7 +59,9 @@ Write a function named forEachTwoToThe that produces the same output as your for
 ------------------------------------------------------------------------------------------------ */
 
 const forEachTwoToThe = (arr) => {
-  // Solution code here...
+  let newArr5 = [];
+  arr.forEach(val => newArr5.push(2 ** val));
+  return newArr5;
 };
 
 /* ------------------------------------------------------------------------------------------------
@@ -64,9 +70,7 @@ CHALLENGE 6
 Write a function named mapTwoToThe that produces the same output as your forLoopTwoToThe function from challenge 4 and your forEachTwoToThe function from challenge 5, but uses map instead of a for loop or forEach.
 ------------------------------------------------------------------------------------------------ */
 
-const mapTwoToThe = (arr) => {
-  // Solution code here...
-};
+const mapTwoToThe = (arr) => arr.map(val => 2 ** val);
 
 /* ------------------------------------------------------------------------------------------------
 CHALLENGE 7 - Stretch Goal
