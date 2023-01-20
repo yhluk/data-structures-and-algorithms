@@ -1,5 +1,7 @@
 'use strict';
 
+const { val } = require("cheerio/lib/api/attributes");
+
 /* ------------------------------------------------------------------------------------------------
 CHALLENGE 1 - Review
 
@@ -22,7 +24,9 @@ function lower(str) {
 }
 
 const updateAnimal = (arr, callback) => {
-  // Solution code here...
+  let newArr = [];
+  arr.map(val => newArr.push(callback(val)));
+  return newArr;
 };
 
 /* ------------------------------------------------------------------------------------------------
@@ -33,9 +37,7 @@ Write a function called sortNames that takes an array of names and sorts them al
 For example: 'Cat' would come before 'apple'
 ------------------------------------------------------------------------------------------------ */
 
-const sortNames = (arr) => {
-  // Solution code here...
-};
+const sortNames = (arr) => arr.sort()
 
 /* ------------------------------------------------------------------------------------------------
 CHALLENGE 3
@@ -46,8 +48,9 @@ HINT: Beware... JS default is "Lexical" ordering.
 ------------------------------------------------------------------------------------------------ */
 
 const sortNumbers = (arr) => {
-  // Solution code here...
+  return arr.sort((a, b) => a-b)
 };
+
 
 /* ------------------------------------------------------------------------------------------------
 CHALLENGE 4
@@ -58,9 +61,8 @@ HINT: Do it with a custom sort callback, not with using `.reverse()`. ;)
 ------------------------------------------------------------------------------------------------ */
 
 const sortBackwards = (arr) => {
-  // Solution code here...
+  return arr.sort((a, b) => b - a)
 };
-
 /* ------------------------------------------------------------------------------------------------
 CHALLENGE 5
 
@@ -71,9 +73,7 @@ In this alphabetization, capital letters come before lower case letters.
 For example, ['Alphabet', 'Zebra', 'alphabet', 'carrot'] is correctly sorted.
 ------------------------------------------------------------------------------------------------ */
 
-const alphabetize = (arr) => {
-  // Solution code here...
-};
+const alphabetize = (arr) => arr.sort()
 
 /* ------------------------------------------------------------------------------------------------
 CHALLENGE 6
@@ -89,7 +89,7 @@ Here is an example of the input:
 ------------------------------------------------------------------------------------------------ */
 
 const sortByPrice = (arr) => {
-  // Solution code here...
+  return arr.sort((a, b) => a.price - b.price)
 };
 
 /* ------------------------------------------------------------------------------------------------
@@ -101,7 +101,7 @@ For example, ['Alphabet', 'alphabet', 'carrot', 'Zebra'] is correctly sorted, an
 ------------------------------------------------------------------------------------------------ */
 
 const alphabetizeBetter = (arr) => {
-  // Solution code here...
+  return arr.sort((a,b) => a.toLowerCase().localeCompare(b.toLowerCase()));// with the help of stackOverflow
 };
 
 /* ------------------------------------------------------------------------------------------------
@@ -111,7 +111,7 @@ Write a function named sortByLength that takes in an array of strings and return
 ------------------------------------------------------------------------------------------------ */
 
 const sortByLength = (arr) => {
-  // Solution code here...
+  return arr.sort((a,b) => a.length - b.length || a.localeCompare(b));
 };
 
 /* ------------------------------------------------------------------------------------------------
@@ -123,7 +123,7 @@ For example, [1, 14, 0.2, -281, 54782] is only correctly sorted in that order.
 ------------------------------------------------------------------------------------------------ */
 
 const sortNumbersByLength = (arr) => {
-  // Solution code here...
+  return  arr.sort((a, b) => a.toString().length - b.toString().length);
 };
 
 /*-----------------------------------------------------------------------------------------------
@@ -145,7 +145,7 @@ const people = [
 ];
 
 const sortPeople = (arr) => {
-  // Solution code here...
+  return arr.sort((a, b) => (a.lastName).localeCompare(b.lastName))
 };
 
 /* ------------------------------------------------------------------------------------------------
@@ -159,7 +159,10 @@ If two people have the same full name, the younger one should come first. Do not
 ------------------------------------------------------------------------------------------------ */
 
 const sortPeopleBetter = (arr) => {
-  // Solution code here...
+  return arr.sort((a, b) => a.age - b.age)
+    .sort((a, b) => (a.firstName).localeCompare(b.firstName))
+    .sort((a, b) => (a.lastName).localeCompare(b.lastName))
+
 };
 
 /* ------------------------------------------------------------------------------------------------
@@ -184,9 +187,19 @@ const meetings = [
   new Meeting('Friday', '1200', '1345'),
 ];
 
-const sortMeetingsByDay = (arr) => {
-  // Solution code here...
-};
+const sortMeetingsByDay = (arr) => {  //Humbly inspired by stack overflow
+  const map = {
+    'Monday': 1,
+    'Tuesday': 2,
+    'Wednesday': 3,
+    'Thursday': 4,
+    'Friday': 5,
+    'Saturday': 6,
+    'Sunday': 7
+  };
+
+return arr.sort((a, b) => map[a.dayOfWeek] - map[b.dayOfWeek])
+}
 
 /* ------------------------------------------------------------------------------------------------
 CHALLENGE 13 - Stretch Goal
@@ -199,7 +212,7 @@ You DO NOT need to use your solution to Challenge 12 in completing Challenge 13.
 ------------------------------------------------------------------------------------------------ */
 
 const sortSchedule = (arr) => {
-  // Solution code here...
+  
 };
 
 /* ------------------------------------------------------------------------------------------------
@@ -272,7 +285,7 @@ describe('Testing challenge 6', () => {
   });
 });
 
-xdescribe('Testing challenge 7', () => {
+describe('Testing challenge 7', () => {
   test('It should alphabetize without regard to capitalization', () => {
     expect(alphabetizeBetter(['Alice', 'apple', 'alert', 'Average'])).toStrictEqual([ 'alert', 'Alice', 'apple', 'Average' ]);
     const ans = alphabetizeBetter(['alphabet', 'Zebra', 'Alphabet', 'carrot']);
@@ -281,7 +294,7 @@ xdescribe('Testing challenge 7', () => {
   });
 });
 
-xdescribe('Testing challenge 8', () => {
+describe('Testing challenge 8', () => {
   test('It should sort strings by length', () => {
     const ans = sortByLength(['alphabet', 'Zebra', 'Alphabet', 'carrot']);
     expect(ans.slice(0,2)).toStrictEqual(['Zebra', 'carrot']);
@@ -292,7 +305,7 @@ xdescribe('Testing challenge 8', () => {
   });
 });
 
-xdescribe('Testing challenge 9', () => {
+describe('Testing challenge 9', () => {
   test('It should sort numbers by their length', () => {
     expect(sortNumbersByLength([10, 2.8, 1, -47.75])).toStrictEqual([1, 10, 2.8, -47.75]);
     expect(sortNumbersByLength([100, 2.82, 1, -47.75])).toStrictEqual([1, 100, 2.82, -47.75]);
@@ -300,7 +313,7 @@ xdescribe('Testing challenge 9', () => {
   });
 });
 
-xdescribe('Testing challenge 10', () => {
+describe('Testing challenge 10', () => {
   test('It should sort people by their last names', () => {
     expect(sortPeople(people)).toStrictEqual([
       new Person('Casey', 'Codefellow', 38),
@@ -312,7 +325,7 @@ xdescribe('Testing challenge 10', () => {
   });
 });
 
-xdescribe('Testing challenge 11', () => {
+describe('Testing challenge 11', () => {
   test('It should sort people with more strict ordering', () => {
     const family = [
       new Person('Casey', 'Codefellows', 55),
@@ -333,7 +346,7 @@ xdescribe('Testing challenge 11', () => {
   });
 });
 
-xdescribe('Testing challenge 12', () => {
+describe('Testing challenge 12', () => {
   test('It should sort meetings by the day on which they happen', () => {
     const sortedMeetings = sortMeetingsByDay(meetings);
     expect(sortedMeetings.slice(0,2)).toEqual(expect.arrayContaining([new Meeting('Monday', '0900', '0945'), new Meeting('Monday', '0900', '1000')]));
