@@ -163,9 +163,22 @@ Write a function named characterByIndex that takes in an array of strings and re
 For example, ['abcd', 'efgh', 'ijkl', 'mnop'] returns ['a', 'f', 'k', 'p']
 ------------------------------------------------------------------------------------------------ */
 
-const characterByIndex = (arr) => {
-  // Solution code here...
-};
+function characterByIndex(strings) {
+  // Create an empty array to store the result
+  let result = [];
+
+  // Loop through the strings array
+  for (let i = 0; i < strings.length; i++) {
+    // Get the character at the current index of the current string
+    let char = strings[i][i];
+
+    // Add the character to the result array
+    result.push(char);
+  }
+
+  return result;
+}
+
 
 /* ------------------------------------------------------------------------------------------------
 TESTS
@@ -300,7 +313,7 @@ xdescribe('Testing challenge 10', () => {
   });
 });
 
-xdescribe('Testing challenge 11', () => {
+describe('Testing challenge 11', () => {
   test('It should return the ith character of the ith string', () => {
     const words = ['apple', 'banana', 'cantaloupe'];
 
